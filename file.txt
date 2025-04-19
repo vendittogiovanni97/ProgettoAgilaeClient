@@ -1,0 +1,27 @@
+ESLint è uno strumento di analisi del codice usato per trovare problemi in JavaScript/TypeScript, come bug, codice poco chiaro o pratiche sconsigliate.
+Si utilizza flatCompat per avere la nuova configurazione 'flat' di eslint ma mantenendo la compatibilità di configurazione classica ( come extends di eslint in vecchio stile)
+Estende le regole consigliate in next
+Disattiva due regole specifiche:
+-Se usiamo any, normalmente ci darebbe errore, ma in questo caso viene disattivato (@typescript-eslint/no-explicit-any)
+-Regola che ti avvisa se mancano dipendenze nei tuoi useEffect, disattivata perché a volte può essere troppo severa(react-hooks/exhaustive-deps).
+
+
+Next-Config 
+Questo file serve per modificare il comportamento globale di Next.js (es. rendering, immagini, routing, ecc.).
+
+Che cos’è reactStrictMode?
+
+reactStrictMode: true (attivo di default) non ha effetti in produzione, ma abilita controlli extra in sviluppo, ma:
+Fa sì che useEffect, useLayoutEffect, ecc. vengano chiamati due volte (in fase di sviluppo solo nel client) per aiutarti a vedere se hai side effects indesiderati.
+Serve per aiutarti a identificare potenziali problemi nel codice durante lo sviluppo.
+Ti avverte di componenti deprecati.
+
+Perché disattivare reactStrictMode?
+
+se hai bisogno di testare il comportamento “normale” di useEffect (cioè che venga chiamato una volta sola come accade in produzione),
+puoi impostare reactStrictMode: false temporaneamente.
+
+-E' buona norma ricordarsi di riattivarlo dopo i test, per futuri controlli in sviluppo.
+
+
+dependencies sono i pacchetti necessari in produzione, mentre devDependencies servono solo durante lo sviluppo (es. testing).
