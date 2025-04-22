@@ -1,0 +1,6 @@
+1. @mui/x-charts
+
+La libreria dei grafici di @mui/x-charts è ufficiale di MUI.
+I pro della libreria sono funziona perfettamente con MUI, supporta sx e theme.
+Ottimizzata per React, non porta con se tante dipendenze, quindi molto leggera però ci sono molti punti negativi, tra cui rispetto a librerie come Chart.js o Recharts,
+meno flessibile per interazioni avanzate, ed è ancora in fase di sviluppo.
