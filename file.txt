@@ -17,7 +17,7 @@ Serve per aiutarti a identificare potenziali problemi nel codice durante lo svil
 Ti avverte di componenti deprecati.
 
 Perché disattivare reactStrictMode?
-
+ 
 se hai bisogno di testare il comportamento “normale” di useEffect (cioè che venga chiamato una volta sola come accade in produzione),
 puoi impostare reactStrictMode: false temporaneamente.
 
