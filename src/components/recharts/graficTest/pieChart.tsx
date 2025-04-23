@@ -8,7 +8,6 @@ import { formatTooltip } from "@/lib/formatterTooltipChart";
 export const optionGrafico = {
   // Titolo del grafico
   title: {
-    text: "Secondo Grafico",
     left: "center",
     textStyle: {
       color: "black",
