@@ -3,7 +3,7 @@ import React from "react";
 import ReactECharts from "echarts-for-react";
 import { grafico2 } from "@/types/valoriGraficiEcharts";
 import { Box } from "@mui/material";
-import { formatTooltip } from "@/lib/settingGraficiEcharts";
+import { formatTooltip } from "@/lib/formatterTooltipChart";
 
 export const optionGrafico = {
   // Titolo del grafico
@@ -11,7 +11,7 @@ export const optionGrafico = {
     text: "Secondo Grafico",
     left: "center",
     textStyle: {
-      color: "#ccc",
+      color: "black",
     },
   },
   // Configurazione del tooltip
@@ -20,8 +20,7 @@ export const optionGrafico = {
     formatter: formatTooltip,
   },
   legend: {
-    orient: "vertical",
-    left: "left",
+    show: false,
   },
   series: [
     {
@@ -47,7 +46,7 @@ export const optionGrafico = {
 
 export default function PieChart() {
   return (
-    <Box sx={{ width: "100%", height: "400px" }}>
+    <Box sx={{ width: "60%" }}>
       <ReactECharts option={optionGrafico} opts={{ renderer: "canvas" }} />
       {/*Opzione base per il rendering, migliora la dinamicità del grafico quando utilizza aggiornamenti frequenti */}
     </Box>

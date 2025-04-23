@@ -130,12 +130,3 @@ export const optionGrafico3 = {
     },
   ],
 };
-
-// Funzione esterna per formattare il tooltip
-export function formatTooltip(params: any) {
-  return `${params.seriesName}<br/>
-          <b>${params.name}</b>: ${params.value} (${params.percent}%)<br/>
-          ${
-            params.data.description ? `<i>${params.data.description}</i>` : ""
-          }`;
-}

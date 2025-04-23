@@ -61,8 +61,8 @@ export const grafico3: DatiGrafico[] = [
 export const datiAutonoleggio = [
   {
     nome: "Leasing",
-    valore: 1250,
-    percentuale: 15.3, // percentuale di crescita positiva
+    valore: 1550,
+    percentuale: 45.3, // percentuale di crescita positiva
     description: "Contratti di leasing attivi",
   },
   {
@@ -73,7 +73,7 @@ export const datiAutonoleggio = [
   },
   {
     nome: "Noleggio a breve termine",
-    valore: 1450,
+    valore: 1250,
     percentuale: 23.8,
     description: "Noleggi giornalieri e settimanali",
   },
