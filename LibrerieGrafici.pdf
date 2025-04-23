@@ -1,0 +1,85 @@
+1. @mui/x-charts
+
+Documentazione ufficiale
+https://mui.com/x/react-charts/pie/
+
+In caso di problemi e bug
+https://stackoverflow.com/questions/tagged/mui-x-charts
+
+
+La libreria dei grafici di @mui/x-charts è ufficiale di MUI.
+Sfrutta la potenza di D3 per i calcoli ma usa React per il rendering
+I pro della libreria sono funziona perfettamente con MUI, supporta sx e theme.
+Ottimizzata per React, non porta con se tante dipendenze, quindi molto leggera però ci sono molti punti negativi, tra cui rispetto a librerie come Chart.js o Recharts,
+meno flessibile per interazioni avanzate, ed è ancora in fase di sviluppo.
+Non ottimizzato per set di dati estremamente grandi
+
+
+
+2. Libreria Echarts 
+
+Documentazione ufficiale
+https://echarts.apache.org/en/index.html
+
+Galleria con Alta quantità di esempi
+https://echarts.apache.org/examples/en/index.html
+
+ECharts è una potente libreria di visualizzazione dati open source sviluppata originariamente da Baidu e ora parte del progetto Apache. 
+
+PRO 
+
+1. Varietà di grafici
+2. Personalizzazione avanzata
+3. Prestazioni ottimizzate: gestisce una grande quantità di dati
+4. Comunità attiva: Essendo un progetto Apache, ha una comunità vivace e buona documentazione.
+5. Compatibilità multi-dispositivo: Adattabile a dispositivi diversi e supporta il rendering responsive.
+6. Supporto TypeScript: Offre dichiarazioni di tipo, facilitando lo sviluppo in progetti TypeScript.
+
+CONTRO
+
+1. Peso della libreria: La versione completa è piuttosto pesante, anche se esiste una versione leggera.
+2. Meno intuitiva rispetto ad alcune alternative: Chart.js
+
+
+L'integrazione di ECharts con Material-UI in progetti aziendali può essere molto efficace, 
+
+ECharts si rivela una scelta solida per progetti aziendali che necessitano di visualizzazioni dati complesse e interattive, specialmente quando combinata con l'ecosistema Material-UI,
+ma richiede una pianificazione attenta per garantire scalabilità e manutenibilità a lungo termine.
+
+
+
+3. Charts.js
+
+Guide community
+https://github.com/chartjs/Chart.js/wiki
+
+Tutorial per uso in react
+https://blog.logrocket.com/using-chart-js-react/
+
+Tutorial Completo
+https://www.tutorialspoint.com/chartjs/index.htm
+
+Documentazione ufficiale
+https://www.chartjs.org/docs/latest/charts/doughnut.html#pie
+
+Chart.js è una delle librerie di grafici JavaScript più popolari, nota per la sua semplicità e leggerezza.
+
+PRO
+
+1. Animazioni fluide e responsive
+2. Personalizzazione semplice
+
+CONTRO 
+
+1. Funzionalità più limitate rispetto a librerie più grandi
+2. Non ideale per visualizzazioni dati molto complesse
+
+
+
+Quale scegliere tra queste tre librerie : 
+
+Chart.js: Ottima per soluzioni rapide e progetti più piccoli dove la semplicità è prioritaria.
+
+MUI X Charts: Ideale per progetti che utilizzano già Material UI e necessitano di grafici coerenti con il design.
+
+ECharts: Preferibile per dashboard aziendali complesse con molti dati e necessità di visualizzazioni avanzate.
