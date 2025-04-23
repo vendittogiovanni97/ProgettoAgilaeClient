@@ -1,0 +1,55 @@
+"use client";
+import React from "react";
+import ReactECharts from "echarts-for-react";
+import { grafico2 } from "@/types/valoriGraficiEcharts";
+import { Box } from "@mui/material";
+import { formatTooltip } from "@/lib/settingGraficiEcharts";
+
+export const optionGrafico = {
+  // Titolo del grafico
+  title: {
+    text: "Secondo Grafico",
+    left: "center",
+    textStyle: {
+      color: "#ccc",
+    },
+  },
+  // Configurazione del tooltip
+  tooltip: {
+    trigger: "item", //// Si attiva al passaggio del mouse su un item
+    formatter: formatTooltip,
+  },
+  legend: {
+    orient: "vertical",
+    left: "left",
+  },
+  series: [
+    {
+      name: "Access From",
+      type: "pie",
+      radius: "50%",
+      data: grafico2.map((item) => ({
+        value: item.value,
+        name: item.name,
+        description: item.description,
+        itemStyle: { color: item.color },
+      })),
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 10,
+          shadowOffsetX: 0,
+          shadowColor: "rgba(0, 0, 0, 0.5)",
+        },
+      },
+    },
+  ],
+};
+
+export default function PieChart() {
+  return (
+    <Box sx={{ width: "100%", height: "400px" }}>
+      <ReactECharts option={optionGrafico} opts={{ renderer: "canvas" }} />
+      {/*Opzione base per il rendering, migliora la dinamicità del grafico quando utilizza aggiornamenti frequenti */}
+    </Box>
+  );
+}

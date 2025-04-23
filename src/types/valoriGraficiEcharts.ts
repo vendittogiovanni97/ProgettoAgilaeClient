@@ -1,6 +1,8 @@
 interface DatiGrafico {
   value: number;
   name: string;
+  description?: string;
+  color?: string;
 }
 
 export const grafico1: DatiGrafico[] = [
@@ -12,11 +14,36 @@ export const grafico1: DatiGrafico[] = [
 ];
 
 export const grafico2: DatiGrafico[] = [
-  { value: 1048, name: "Search Engine" },
-  { value: 735, name: "Direct" },
-  { value: 580, name: "Email" },
-  { value: 484, name: "Union Ads" },
-  { value: 300, name: "Video Ads" },
+  {
+    value: 1048,
+    name: "Search Engine",
+    description: "Utenti da motori di ricerca",
+    color: "#FF1493",
+  },
+  {
+    value: 735,
+    name: "Direct",
+    description: "Utenti da motori di ricerca",
+    color: "#FF7F50",
+  },
+  {
+    value: 580,
+    name: "Email",
+    description: "Utenti da motori di ricerca",
+    color: "#00FFFF",
+  },
+  {
+    value: 484,
+    name: "Union Ads",
+    description: "Utenti da motori di ricerca",
+    color: "#B8860B",
+  },
+  {
+    value: 300,
+    name: "Video Ads",
+    description: "Utenti da motori di ricerca",
+    color: "#006400",
+  },
 ];
 
 export const grafico3: DatiGrafico[] = [
@@ -28,4 +55,38 @@ export const grafico3: DatiGrafico[] = [
   { value: 26, name: "rose 6" },
   { value: 22, name: "rose 7" },
   { value: 18, name: "rose 8" },
+];
+
+// Dati di esempio per l'autonoleggio
+export const datiAutonoleggio = [
+  {
+    nome: "Leasing",
+    valore: 1250,
+    percentuale: 15.3, // percentuale di crescita positiva
+    description: "Contratti di leasing attivi",
+  },
+  {
+    nome: "Noleggio a lungo termine",
+    valore: 980,
+    percentuale: -4.7, // percentuale di decrescita
+    description: "Contratti di noleggio a lungo termine",
+  },
+  {
+    nome: "Noleggio a breve termine",
+    valore: 1450,
+    percentuale: 23.8,
+    description: "Noleggi giornalieri e settimanali",
+  },
+  {
+    nome: "Rent-to-buy",
+    valore: 475,
+    percentuale: 5.2,
+    description: "Contratti rent-to-buy attivi",
+  },
+  {
+    nome: "Car sharing",
+    valore: 350,
+    percentuale: -12.6,
+    description: "Utenti servizio car sharing",
+  },
 ];

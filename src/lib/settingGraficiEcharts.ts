@@ -30,8 +30,10 @@ export const optionGrafico1 = {
       center: ["50%", "50%"],
       data: grafico1
         .map((item) => ({
+          id: 1,
           value: item.value,
           name: item.name,
+          description: "text",
         }))
         .sort(function (a, b) {
           return a.value - b.value;
@@ -128,3 +130,12 @@ export const optionGrafico3 = {
     },
   ],
 };
+
+// Funzione esterna per formattare il tooltip
+export function formatTooltip(params: any) {
+  return `${params.seriesName}<br/>
+          <b>${params.name}</b>: ${params.value} (${params.percent}%)<br/>
+          ${
+            params.data.description ? `<i>${params.data.description}</i>` : ""
+          }`;
+}

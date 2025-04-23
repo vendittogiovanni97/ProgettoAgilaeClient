@@ -1,6 +1,6 @@
-import Grafico1Recharts from "@/components/recharts/grafico1";
-import Grafico2Recharts from "@/components/recharts/grafico2";
-import Grafico3Echarts from "@/components/recharts/grafico3";
+import Grafico1Recharts from "@/components/recharts/prova/grafico1";
+import Grafico2Recharts from "@/components/recharts/prova/grafico2";
+import Grafico3Echarts from "@/components/recharts/prova/grafico3";
 import { Box, Typography } from "@mui/material";
 
 export default function GraficiEcharts() {
