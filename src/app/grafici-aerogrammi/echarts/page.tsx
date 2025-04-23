@@ -1,7 +1,9 @@
-import { Grafico1, Grafico2, Grafico3 } from "@/components/material-ui";
+import Grafico1Recharts from "@/components/recharts/grafico1";
+import Grafico2Recharts from "@/components/recharts/grafico2";
+import Grafico3Echarts from "@/components/recharts/grafico3";
 import { Box, Typography } from "@mui/material";
 
-export default function GraficiMaterialUI() {
+export default function GraficiEcharts() {
   return (
     <div>
       <Typography
@@ -9,7 +11,7 @@ export default function GraficiMaterialUI() {
         gutterBottom
         sx={{ textAlign: "center", padding: 3, marginBottom: 4 }}
       >
-        Grafici Libreria MUI
+        Grafici Libreria Echarts
       </Typography>
       <Box
         sx={{
@@ -22,24 +24,18 @@ export default function GraficiMaterialUI() {
         }}
       >
         <Box sx={{ textAlign: "center" }}>
-          <Typography variant="h6" gutterBottom>
-            Primo Grafico
-          </Typography>
-          <Grafico1 />
+          <Grafico1Recharts />
         </Box>
 
         <Box sx={{ textAlign: "center" }}>
-          <Typography variant="h6" gutterBottom>
-            Secondo Grafico
-          </Typography>
-          <Grafico2 />
+          <Grafico2Recharts />
         </Box>
 
         <Box sx={{ textAlign: "center" }}>
           <Typography variant="h6" gutterBottom>
             Terzo Grafico
           </Typography>
-          <Grafico3 />
+          <Grafico3Echarts />
         </Box>
       </Box>
     </div>
