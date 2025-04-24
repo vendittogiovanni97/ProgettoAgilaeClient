@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import ReactECharts from "echarts-for-react";
-import { grafico2 } from "@/types/valoriGraficiEcharts";
 import { Box } from "@mui/material";
 import { formatTooltip } from "@/lib/formatterTooltipChart";
+import { data } from "@/types/valoriGraficoRadar";
 
 const optionGrafico = {
   // Titolo del grafico
@@ -26,10 +26,10 @@ const optionGrafico = {
       name: "Access From",
       type: "pie",
       radius: "50%",
-      data: grafico2.map((item) => ({
+
+      data: data.map((item) => ({
         value: item.value,
         name: item.name,
-        description: item.description,
         itemStyle: { color: item.color },
       })),
       emphasis: {

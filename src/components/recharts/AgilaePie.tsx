@@ -8,10 +8,18 @@ export default function AgilaePie() {
       <Grid sx={{ flexGrow: 1 }} />
       <Box
         sx={{
+          height: 350,
           display: "flex",
-          justifyContent: "flex-start",
-          width: "70%",
-          p: 2,
+          justifyContent: "center", // Cambiato da flex-start a center
+          alignItems: "center",
+          width: "35%",
+          borderRadius: 4,
+          bgcolor: "#d2d6d4",
+          maxWidth: 1000,
+          boxShadow: "0 8px 16px -8px rgba(0,0,0,0.8)",
+          ml: 25, // 24px
+          position: "relative",
+          top: -70, // 👈 Sposta di 16px verso l'alto
         }}
       >
         <PieChart />
