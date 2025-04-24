@@ -5,7 +5,7 @@ import { grafico2 } from "@/types/valoriGraficiEcharts";
 import { Box } from "@mui/material";
 import { formatTooltip } from "@/lib/formatterTooltipChart";
 
-export const optionGrafico = {
+const optionGrafico = {
   // Titolo del grafico
   title: {
     left: "center",

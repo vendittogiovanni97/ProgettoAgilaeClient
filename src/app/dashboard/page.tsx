@@ -1,14 +1,16 @@
 import Grid from "@mui/material/Grid2";
 import { Box } from "@mui/material";
 import AgilaeBar from "@/components/recharts/AgilaeBar";
+import AgilaeRadar from "@/components/recharts/AgilaeRadar";
 
 export default function DashboardPage() {
   return (
     <Box
-      style={{ background: "#DCDCDC", minHeight: "100vh", overflow: "auto" }}
+      style={{ background: "#c4c4c3", minHeight: "100vh", overflow: "auto" }}
     >
       <Grid container direction="column" sx={{ height: "100vh" }}>
         <AgilaeBar />
+        <AgilaeRadar />
       </Grid>
     </Box>
   );
