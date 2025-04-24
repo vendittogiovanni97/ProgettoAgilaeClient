@@ -57,36 +57,32 @@ export const grafico3: DatiGrafico[] = [
   { value: 18, name: "rose 8" },
 ];
 
+type CarRentalData = {
+  nome: string;
+  percentuale: number;
+  color: string;
+};
+
 // Dati di esempio per l'autonoleggio
-export const datiAutonoleggio = [
+export const datiAutonoleggio: CarRentalData[] = [
   {
-    nome: "Leasing",
-    valore: 1550,
-    percentuale: 45.3, // percentuale di crescita positiva
-    description: "Contratti di leasing attivi",
+    nome: "Ayvens",
+    percentuale: 50,
+    color: "#5fc0c9",
   },
   {
-    nome: "Noleggio a lungo termine",
-    valore: 980,
-    percentuale: -4.7, // percentuale di decrescita
-    description: "Contratti di noleggio a lungo termine",
+    nome: "Athlon",
+    percentuale: 65,
+    color: "#e00067",
   },
   {
-    nome: "Noleggio a breve termine",
-    valore: 1250,
-    percentuale: 23.8,
-    description: "Noleggi giornalieri e settimanali",
+    nome: "Arval",
+    percentuale: -19,
+    color: "#f07f0d",
   },
   {
-    nome: "Rent-to-buy",
-    valore: 475,
-    percentuale: 5.2,
-    description: "Contratti rent-to-buy attivi",
-  },
-  {
-    nome: "Car sharing",
-    valore: 350,
-    percentuale: -12.6,
-    description: "Utenti servizio car sharing",
+    nome: "Leasys",
+    percentuale: 80,
+    color: "#1e8233",
   },
 ];

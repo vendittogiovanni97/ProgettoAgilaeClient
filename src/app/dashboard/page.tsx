@@ -1,7 +1,6 @@
 import Grid from "@mui/material/Grid2";
 import { Box } from "@mui/material";
 import AgilaeBar from "@/components/recharts/AgilaeBar";
-import AgilaePie from "@/components/recharts/AgilaePie";
 
 export default function DashboardPage() {
   return (
@@ -10,7 +9,6 @@ export default function DashboardPage() {
     >
       <Grid container direction="column" sx={{ height: "100vh" }}>
         <AgilaeBar />
-        <AgilaePie />
       </Grid>
     </Box>
   );

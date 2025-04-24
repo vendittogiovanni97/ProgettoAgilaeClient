@@ -1,18 +1,10 @@
 "use client";
 import { tooltipBar } from "@/lib/formatterTooltipChart";
 import { datiAutonoleggio } from "@/types/valoriGraficiEcharts";
-import { Box } from "@mui/material";
 import ReactECharts from "echarts-for-react";
 
 //Grafico a barre con etichette di percentuale accanto
 export const options = {
-  title: {
-    text: "Andamento Autonoleggio",
-    left: "center",
-    textStyle: {
-      color: "black",
-    },
-  },
   tooltip: {
     trigger: "axis",
     axisPointer: {
@@ -21,48 +13,60 @@ export const options = {
     formatter: tooltipBar,
   },
   grid: {
-    left: "3%",
-    right: "15%", // Spazio maggiore a destra per le percentuali
-    bottom: "3%",
-    containLabel: true,
+    left: "100px",
+    right: "45px",
+    top: "10px",
+    bottom: "20px",
+    containLabel: false,
   },
   xAxis: {
     type: "value",
-    position: "top",
-    splitLine: {
-      lineStyle: {
-        type: "dashed",
-      },
-    },
+    max: 100,
+    show: false,
   },
   yAxis: {
     type: "category",
     data: datiAutonoleggio.map((item) => item.nome),
+    inverse: true,
     axisLine: { show: false },
     axisTick: { show: false },
-    splitLine: { show: false },
+    axisLabel: {
+      align: "left",
+      margin: 80,
+      fontSize: 16,
+      fontFamily: "monospace",
+      color: "#555",
+      fontWeight: "bold",
+    },
   },
   series: [
+    // 🎨 Serie 1 – Valori reali con colore dinamico
     {
-      name: "Valore",
       type: "bar",
-      data: datiAutonoleggio.map((item) => item.valore),
+      data: datiAutonoleggio.map((item) => Math.abs(item.percentuale)), // Valore assoluto
+      barWidth: 32,
+      itemStyle: {
+        borderRadius: 18,
+        color: (params: any) => datiAutonoleggio[params.dataIndex].color,
+      },
       label: {
         show: true,
         position: "right",
-        formatter: function (params: any) {
-          const dataIndex = params.dataIndex;
-          const percentuale = datiAutonoleggio[dataIndex].percentuale;
-          const segno = percentuale > 0 ? "+" : "";
-
-          return `{percentStyle|${segno}${percentuale}%}`;
+        offset: [10, 0], // [x, y] ➜ sposta il testo 10px a destra
+        fontSize: 14,
+        color: "black",
+        formatter: (params: any) => {
+          const val = datiAutonoleggio[params.dataIndex].percentuale;
+          return (val > 0 ? "+" : "") + val + "%";
         },
-        rich: {
-          percentStyle: {
-            fontWeight: "bold",
-            fontSize: 14,
-          },
-        },
+      },
+      showBackground: true,
+      backgroundStyle: {
+        color: "#DCDCDC",
+        borderRadius: 18,
+        borderWidth: 1, // Usa borderWidth invece di border
+        borderColor: "#808080",
+        borderType: "solid",
       },
     },
   ],
@@ -70,8 +74,6 @@ export const options = {
 
 export default function BarChart() {
   return (
-    <Box sx={{ width: "60%", height: "10vh" }}>
-      <ReactECharts option={options} opts={{ renderer: "canvas" }} />
-    </Box>
+    <ReactECharts option={options} style={{ height: 300, width: "100%" }} />
   );
 }
