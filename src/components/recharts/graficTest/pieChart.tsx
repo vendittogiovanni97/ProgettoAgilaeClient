@@ -45,7 +45,7 @@ const optionGrafico = {
 
 export default function PieChart() {
   return (
-    <Box sx={{ width: "60%" }}>
+    <Box sx={{ width: "100%" }}>
       <ReactECharts option={optionGrafico} opts={{ renderer: "canvas" }} />
       {/*Opzione base per il rendering, migliora la dinamicità del grafico quando utilizza aggiornamenti frequenti */}
     </Box>

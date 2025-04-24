@@ -12,7 +12,7 @@ export default function AgilaePie() {
           display: "flex",
           justifyContent: "center", // Cambiato da flex-start a center
           alignItems: "center",
-          width: "35%",
+          width: "30%",
           borderRadius: 4,
           bgcolor: "#d2d6d4",
           maxWidth: 1000,
