@@ -7,7 +7,7 @@ export const uploadProfilePic = async (
   request: Request,
   response: Response
 ) => {
-  const profilePicsPath = "./public/profilePics";
+  const profilePicsPath = "./public/document";
   const files = Array.isArray(request.files?.profilePic)
     ? request.files?.profilePic
     : [request.files?.profilePic];
