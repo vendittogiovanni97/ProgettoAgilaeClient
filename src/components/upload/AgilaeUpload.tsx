@@ -7,9 +7,9 @@ export default function AgilaeUpload() {
       sx={{
         display: "flex",
         justifyContent: "center", // centra orizzontalmente
-        alignItems: "center", // centra verticalmente (se vuoi)
+        alignItems: "center", // centra verticalmente
         width: "100%",
-        minHeight: "400px", // altezza minima decente
+        minHeight: "400px",
         mt: 4, // margin-top
       }}
     >
@@ -20,7 +20,7 @@ export default function AgilaeUpload() {
           width: "150%",
           maxWidth: 800,
           borderRadius: 3,
-          backgroundColor: "background.paper",
+          backgroundColor: "#d2d6d4",
         }}
       >
         <UploadComponents2 />
