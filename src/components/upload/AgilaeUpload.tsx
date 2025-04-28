@@ -9,7 +9,7 @@ export default function AgilaeUpload() {
         justifyContent: "center", // centra orizzontalmente
         alignItems: "center", // centra verticalmente (se vuoi)
         width: "100%",
-        minHeight: "300px", // altezza minima decente
+        minHeight: "400px", // altezza minima decente
         mt: 4, // margin-top
       }}
     >
@@ -17,8 +17,8 @@ export default function AgilaeUpload() {
         elevation={3}
         sx={{
           p: 4, // padding interno
-          width: "100%",
-          maxWidth: 500,
+          width: "150%",
+          maxWidth: 800,
           borderRadius: 3,
           backgroundColor: "background.paper",
         }}

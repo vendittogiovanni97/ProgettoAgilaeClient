@@ -77,7 +77,7 @@ export const previewFile = async (
 /////////// Upload File ///////////
 
 export const uploadFiles = async (request: Request, response: Response) => {
-  const documentsPath = "./public/document"; // Modificato da 'document' a 'documents' per coerenza
+  const documentsPath = "./public/document";
 
   try {
     // Verifica che ci siano file nella richiesta
@@ -123,7 +123,7 @@ export const uploadFiles = async (request: Request, response: Response) => {
             filename: safeFilename,
             mimetype: file.mimetype,
             filetype: ext.replace(".", ""), // Corretto: rimuove solo il punto
-            filepath: `/documents/${safeFilename}`,
+            filepath: `/public/document/${safeFilename}`,
           },
         });
 

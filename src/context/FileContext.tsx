@@ -70,15 +70,16 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({
 
   const downloadFile = async (id: number, filename: string) => {
     try {
-      const { fetchResult } = await backendFetch(
-        `/files/${id}/download`,
-        "get"
+      const { fetchResult, responseBody } = await backendFetch(
+        `/${id}/download`,
+        "get",
+        undefined,
+        "blob"
       );
 
       if (!fetchResult.ok) throw new Error("Failed to download file.");
 
-      const blob = await fetchResult.blob();
-      const url = window.URL.createObjectURL(blob);
+      const url = window.URL.createObjectURL(responseBody);
       const link = document.createElement("a");
       link.href = url;
       link.download = filename;
@@ -91,12 +92,16 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({
 
   const previewFile = async (id: number) => {
     try {
-      const { fetchResult } = await backendFetch(`/files/${id}/preview`, "get");
+      const { fetchResult, responseBody } = await backendFetch(
+        `/${id}/preview`,
+        "get",
+        undefined,
+        "blob"
+      );
 
       if (!fetchResult.ok) throw new Error("Failed to preview file.");
 
-      const blob = await fetchResult.blob();
-      const url = window.URL.createObjectURL(blob);
+      const url = window.URL.createObjectURL(responseBody);
       return url;
     } catch (err: any) {
       setError(err.message || "Unknown error");

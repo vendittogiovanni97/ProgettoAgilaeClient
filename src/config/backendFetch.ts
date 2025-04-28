@@ -3,7 +3,8 @@ import serverConfig from "./fetchUrl";
 const backendFetch = async (
   url: string,
   method: "get" | "post" | "delete" | "put" = "get",
-  body?: unknown
+  body?: unknown,
+  responseType: "json" | "blob" | "text" = "json" // <- AGGIUNTO responseType
 ) => {
   const fetchOptions: RequestInit =
     method === "post"
@@ -24,7 +25,14 @@ const backendFetch = async (
       fetchOptions
     );
 
-    const responseBody = await fetchResult.json();
+    let responseBody;
+    if (responseType === "json") {
+      responseBody = await fetchResult.json();
+    } else if (responseType === "blob") {
+      responseBody = await fetchResult.blob();
+    } else if (responseType === "text") {
+      responseBody = await fetchResult.text();
+    }
     const responseDetails = responseBody.details;
     //console.log("RESPONSE FETCH ", fetchResult, responseBody);
 
