@@ -7,7 +7,7 @@ import {
   LinearProgress,
   IconButton,
 } from "@mui/material";
-import { Check, Close, InsertDriveFile as FileIcon } from "@mui/icons-material";
+import { Check, InsertDriveFile as FileIcon } from "@mui/icons-material";
 import { FileData } from "@/context/types/TypeFileContext";
 
 interface FileItemProps {

@@ -13,7 +13,7 @@ export const UploadedFile = (app: Router) => {
   router.post("/upload", uploadFiles);
 
   // Get - Lista file
-  router.get("/", listFiles);
+  router.get("/files", listFiles);
 
   // Get - Download file
   router.get("/:id/download", downloadFile);

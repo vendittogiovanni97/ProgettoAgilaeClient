@@ -77,41 +77,85 @@ export const previewFile = async (
 /////////// Upload File ///////////
 
 export const uploadFiles = async (request: Request, response: Response) => {
-  const profilePicsPath = "./public/document";
-  const files = Array.isArray(request.files?.profilePic)
-    ? request.files?.profilePic
-    : [request.files?.profilePic];
+  const documentsPath = "./public/document"; // Modificato da 'document' a 'documents' per coerenza
 
-  if (files.length > 1) {
-    response.status(400).json("You can upload one file only");
-    return;
+  try {
+    // Verifica che ci siano file nella richiesta
+    if (!request.files || !request.files.files) {
+      response.status(400).json({ error: "No files were uploaded." });
+      return;
+    }
+
+    // Normalizza i file in un array
+    const files = request.files.files;
+    const uploadedFiles = Array.isArray(files) ? files : [files];
+
+    // Tipi MIME accettati
+    const acceptedMimeTypes = [
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ];
+
+    const savedFiles = [];
+
+    // Processa ogni file
+    for (const file of uploadedFiles as UploadedFile[]) {
+      try {
+        // Verifica il tipo di file
+        if (!acceptedMimeTypes.includes(file.mimetype)) {
+          throw new Error(`Invalid file type for file: ${file.name}`);
+        }
+
+        // Genera un nome file sicuro
+        const ext = path.extname(file.name);
+        const safeFilename = `${
+          path.parse(file.name).name
+        }-${Date.now()}${ext}`;
+        const savePath = path.join(documentsPath, safeFilename);
+
+        // Sposta il file
+        await file.mv(savePath);
+
+        // Salva nel database
+        const createdFile = await dbClient.uploadFile.create({
+          data: {
+            filename: safeFilename,
+            mimetype: file.mimetype,
+            filetype: ext.replace(".", ""), // Corretto: rimuove solo il punto
+            filepath: `/documents/${safeFilename}`,
+          },
+        });
+
+        savedFiles.push(createdFile);
+      } catch (fileError) {
+        console.error(`Error processing file ${file.name}:`, fileError);
+        // Continua con i file successivi anche se uno fallisce
+      }
+    }
+
+    // Verifica se almeno un file è stato processato con successo
+    if (savedFiles.length === 0) {
+      response.status(400).json({
+        error: "No files were successfully processed.",
+        details: uploadedFiles.map((f) => ({
+          name: f.name,
+          type: f.mimetype,
+          size: f.size,
+        })),
+      });
+    }
+
+    response.status(200).json({
+      message: "Files uploaded successfully.",
+      files: savedFiles,
+      count: savedFiles.length,
+    });
+  } catch (error) {
+    console.error("Server error during file upload:", error);
+    response.status(500).json({
+      error: "Internal server error while uploading files.",
+      details: "",
+    });
   }
-
-  const file: UploadedFile | undefined = files[0];
-
-  if (file === undefined) {
-    response.status(400).json("Provide a profilePic");
-    return;
-  }
-
-  if (!file.mimetype.startsWith("image/")) {
-    response.status(400).json("Invalid file type");
-    return;
-  }
-  const ext = path.extname(file.name);
-
-  const filename = `${file.name}-${new Date().valueOf()}${ext}`;
-
-  file.mv(`${profilePicsPath}/${filename}`);
-
-  // Salva nel database
-  await dbClient.uploadFile.create({
-    data: {
-      filename: file.name,
-      mimetype: file.mimetype,
-      filetype: filename,
-      filepath: `/uploads/documents/${file.name}`,
-    },
-  });
-  response.status(200).send("Files uploaded successfully.");
 };

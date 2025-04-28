@@ -9,5 +9,6 @@ export const backendFetchFormData = async (url: string, formData: FormData) => {
       credentials: "include",
     }
   );
+  console.log("dati", res);
   return res;
 };

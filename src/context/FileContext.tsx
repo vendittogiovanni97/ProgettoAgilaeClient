@@ -1,3 +1,5 @@
+"use client";
+
 import {
   createContext,
   ReactNode,
@@ -29,9 +31,17 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({
   const fetchFiles = async () => {
     try {
       setLoading(true);
-      const { responseBody } = await backendFetch("/rest/files");
+      const { responseBody } = await backendFetch("/files");
       if (!responseBody) throw new Error("Failed to fetch files.");
-      setFiles(responseBody);
+      const formattedFiles = responseBody.map((file: any) => ({
+        id: file.id,
+        name: file.filename || "File senza nome", // Assicurati che ci sia sempre un nome
+        status: "success" as const, // I file già caricati sono in stato success
+        filepath: file.filepath,
+        mimetype: file.mimetype,
+        filetype: file.filetype,
+      }));
+      setFiles(formattedFiles);
     } catch (err: any) {
       setError(err.message || "Unknown error");
     } finally {

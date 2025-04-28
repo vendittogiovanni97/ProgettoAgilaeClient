@@ -2,9 +2,12 @@
 export interface FileData {
   id?: number;
   name: string;
-  size?: string;
-  status: "success" | "error" | "uploading";
+  size: string;
+  status: "uploading" | "success" | "error";
   progress?: number;
+  filepath?: string;
+  mimetype?: string;
+  filetype?: string;
 }
 
 // Tipo per il Context
