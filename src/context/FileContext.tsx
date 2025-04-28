@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { FileContextType, FileData } from "./types/TypeFileContext";
 import backendFetch from "@/config/backendFetch";
 import { backendFetchFormData } from "@/config/backendFetchFormData";
@@ -87,4 +93,28 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({
       throw err;
     }
   };
+
+  return (
+    <FileContext.Provider
+      value={{
+        files,
+        loading,
+        error,
+        uploadFiles,
+        downloadFile,
+        previewFile,
+        fetchFiles,
+      }}
+    >
+      {children}
+    </FileContext.Provider>
+  );
+};
+
+export const useFileContext = () => {
+  const context = useContext(FileContext);
+  if (!context) {
+    throw new Error("useFileContext must be used within a FileProvider");
+  }
+  return context;
 };

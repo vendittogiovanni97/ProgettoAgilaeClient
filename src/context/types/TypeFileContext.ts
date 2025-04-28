@@ -1,11 +1,10 @@
 // Tipo base per ogni file
 export interface FileData {
-  id: number;
-  filename: string;
-  mimetype: string;
-  filetype: string;
-  filepath: string;
-  createdAt: string;
+  id?: number;
+  name: string;
+  size?: string;
+  status: "success" | "error" | "uploading";
+  progress?: number;
 }
 
 // Tipo per il Context
