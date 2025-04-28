@@ -1,7 +1,7 @@
-import { Router } from "express";
+import { Router, Express } from "express";
 import { UploadedFile } from "./uploadRouter";
 
-const addRouter = (app: Router) => {
+const addRouter = (app: Express) => {
   const router = Router();
 
   UploadedFile(router);

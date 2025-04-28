@@ -22,7 +22,10 @@ export const listFiles = async (request: Request, response: Response) => {
 
 /////////// Download File ///////////
 
-export const downloadFile = async (request: Request, response: Response) => {
+export const downloadFile = async (
+  request: Request,
+  response: Response
+): Promise<void> => {
   try {
     const file = await dbClient.uploadFile.findUnique({
       where: { id: parseInt(request.params.id) },
@@ -30,6 +33,7 @@ export const downloadFile = async (request: Request, response: Response) => {
 
     if (!file) {
       response.status(404).send("File not found.");
+      return;
     }
 
     const absolutePath = path.join(__dirname, "../../", file.filepath);
@@ -44,7 +48,10 @@ export const downloadFile = async (request: Request, response: Response) => {
 
 /////////// Preview File ///////////
 
-export const previewFile = async (request: Request, response: Response) => {
+export const previewFile = async (
+  request: Request,
+  response: Response
+): Promise<void> => {
   try {
     const file = await dbClient.uploadFile.findUnique({
       where: { id: parseInt(request.params.id) },
@@ -52,6 +59,7 @@ export const previewFile = async (request: Request, response: Response) => {
 
     if (!file) {
       response.status(404).send("File not found.");
+      return;
     }
 
     const absolutePath = path.join(__dirname, "../../", file.filepath);

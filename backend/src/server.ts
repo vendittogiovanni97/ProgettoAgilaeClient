@@ -17,12 +17,13 @@ app.use((request, response, next) => {
 app.use(
   cors({
     origin: process.env.ORIGIN,
+    credentials: true,
   })
 );
 
 app.use(express.json());
 
-//addRouter(app);
+addRouter(app);
 
 app.listen(port, () => {
   console.log(`Server in ascolto sulla porta ${port}`);
