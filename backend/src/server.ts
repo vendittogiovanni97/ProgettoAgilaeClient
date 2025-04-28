@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import addRouter from "./routes";
 
 dotenv.config();
 
@@ -24,6 +25,8 @@ app.use(
 );
 
 app.use(express.json());
+
+addRouter(app);
 
 app.listen(port, () => {
   console.log(`Server in ascolto sulla porta ${port}`);

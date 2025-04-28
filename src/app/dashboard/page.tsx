@@ -2,6 +2,7 @@ import Grid from "@mui/material/Grid2";
 import { Box } from "@mui/material";
 import AgilaeBar from "@/components/recharts/AgilaeBar";
 import AgilaePie from "@/components/recharts/AgilaePie";
+import AgilaeUpload from "@/components/upload/AgilaeUpload";
 
 export default function DashboardPage() {
   return (
@@ -12,6 +13,7 @@ export default function DashboardPage() {
         <AgilaeBar />
         <AgilaePie />
       </Grid>
+      <AgilaeUpload />
     </Box>
   );
 }
