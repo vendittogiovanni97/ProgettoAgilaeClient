@@ -65,6 +65,11 @@ export const previewFile = async (
 
     const absolutePath = path.join(__dirname, "../../", file.filepath);
 
+    if (!fs.existsSync(absolutePath)) {
+      response.status(404).send("File not found on disk.");
+      return;
+    }
+
     response.setHeader("Content-Type", file.mimetype); //Con Content-Type dinamico in base al mimetype, il browser può gestire correttamente anteprime PDF o Word.
     fs.createReadStream(absolutePath).pipe(response); // Stream file come preview
   } catch (error) {

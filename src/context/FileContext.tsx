@@ -94,7 +94,7 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const previewFile = async (id: number) => {
+  const previewFile = async (id: number, filename: string) => {
     try {
       const { fetchResult, responseBody } = await backendFetch(
         `/${id}/preview`,

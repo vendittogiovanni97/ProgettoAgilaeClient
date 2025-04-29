@@ -17,6 +17,6 @@ export interface FileContextType {
   error: string | null;
   uploadFiles: (files: File[]) => Promise<void>;
   downloadFile: (id: number, filename: string) => Promise<void>;
-  previewFile: (id: number) => Promise<string>; // ritorna URL per preview
+  previewFile: (id: number, filename: string) => Promise<string>; // ritorna URL per preview
   fetchFiles: () => Promise<void>;
 }

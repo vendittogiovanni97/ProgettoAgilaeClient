@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import addRouter from "./routes";
 import fileUpload = require("express-fileupload");
+import path = require("path");
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use(
 
 app.use(express.json());
 app.use(fileUpload());
+app.use("/public", express.static(path.join(__dirname, "../document")));
 
 addRouter(app);
 

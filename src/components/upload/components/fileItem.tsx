@@ -16,6 +16,7 @@ import {
 } from "@mui/icons-material";
 import { FileData } from "@/context/types/TypeFileContext";
 import { useFileContext } from "@/context/FileContext";
+import { getFileIcon } from "./IconFile";
 
 interface FileItemProps {
   file: FileData;
@@ -28,7 +29,7 @@ export function FileItem({ file }: FileItemProps) {
     e.stopPropagation(); // Previene la propagazione
     if (file.id) {
       try {
-        const url = await previewFile(file.id);
+        const url = await previewFile(file.id, file.name);
         window.open(url, "_blank");
       } catch (error) {
         console.error("Errore durante l/n anteprima", error);
@@ -64,7 +65,7 @@ export function FileItem({ file }: FileItemProps) {
         gap: 1,
       }}
     >
-      <FileIcon color={file.status === "error" ? "error" : "inherit"} />
+      {getFileIcon(file.name, file.status)}
 
       <Box flexGrow={1}>
         <Typography variant="body1" component="div" noWrap>
