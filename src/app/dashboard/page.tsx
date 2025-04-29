@@ -10,6 +10,7 @@ export default function DashboardPage() {
       style={{ background: "#c4c4c3", minHeight: "100vh", overflow: "auto" }}
     >
       <Grid container direction="column" sx={{ height: "100vh" }}>
+        {/* provare grid 3x */}
         <AgilaeBar />
         <AgilaePie />
       </Grid>

@@ -1,6 +1,6 @@
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import { FaFileWord } from "react-icons/fa6";
-import { FaFilePdf } from "react-icons/fa6";
+import { FaFilePdf } from "react-icons/fa";
 
 export const getFileIcon = (filename: string, status: string) => {
   const extension = filename.split(".").pop()?.toLowerCase();
