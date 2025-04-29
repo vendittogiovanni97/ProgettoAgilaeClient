@@ -1,7 +1,7 @@
 import { Box, Paper } from "@mui/material";
 import UploadComponents2 from "./upload2";
 
-export default function AgilaeUpload() {
+export default function AgilaeUpload1() {
   return (
     <Box
       sx={{
