@@ -8,6 +8,7 @@ import { UploadedFile } from "express-fileupload";
 
 export const listFiles = async (request: Request, response: Response) => {
   try {
+    //Ordina tutti i file in ordine più recente
     const files = await dbClient.uploadFile.findMany({
       orderBy: { createdAt: "desc" },
     });
@@ -28,7 +29,7 @@ export const downloadFile = async (
 ): Promise<void> => {
   try {
     const file = await dbClient.uploadFile.findUnique({
-      where: { id: parseInt(request.params.id) },
+      where: { id: parseInt(request.params.id) }, //il recupero del file per ID
     });
 
     if (!file) {
@@ -36,8 +37,8 @@ export const downloadFile = async (
       return;
     }
 
-    const absolutePath = path.join(__dirname, "../../", file.filepath);
-    response.download(absolutePath, file.filename); // Scarica con nome originale
+    const absolutePath = path.join(__dirname, "../../", file.filepath); //usiamo path.join per costruire il percorso assoluto
+    response.download(absolutePath, file.filename); // Download automatico con il nome corretto del file
   } catch (error) {
     console.error(error);
     response.status(500).send("Error downloading file.");
@@ -64,7 +65,7 @@ export const previewFile = async (
 
     const absolutePath = path.join(__dirname, "../../", file.filepath);
 
-    response.setHeader("Content-Type", file.mimetype);
+    response.setHeader("Content-Type", file.mimetype); //Con Content-Type dinamico in base al mimetype, il browser può gestire correttamente anteprime PDF o Word.
     fs.createReadStream(absolutePath).pipe(response); // Stream file come preview
   } catch (error) {
     console.error(error);
@@ -82,20 +83,22 @@ export const uploadFiles = async (request: Request, response: Response) => {
   try {
     // Verifica che ci siano file nella richiesta
     if (!request.files || !request.files.files) {
-      response.status(400).json({ error: "No files were uploaded." });
+      response
+        .status(400)
+        .json({ error: "Please upload at least one file to proceed." });
       return;
     }
 
     // Normalizza i file in un array
     const files = request.files.files;
-    const uploadedFiles = Array.isArray(files) ? files : [files];
+    const uploadedFiles = Array.isArray(files) ? files : [files]; //gestiamo sia upload multipli che singoli
 
     // Tipi MIME accettati
     const acceptedMimeTypes = [
       "application/pdf",
       "application/msword",
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    ];
+    ]; //Controllo tipo file
 
     const savedFiles = [];
 
@@ -118,11 +121,13 @@ export const uploadFiles = async (request: Request, response: Response) => {
         await file.mv(savePath);
 
         // Salva nel database
+        /*La struttura è coerente e facile da capire. filetype ricavato togliendo il punto: funziona,
+         ma se mai lavorerai con estensioni multiple potrebbe essere più robusto usare ext.substring(1) o una libreria.*/
         const createdFile = await dbClient.uploadFile.create({
           data: {
             filename: safeFilename,
             mimetype: file.mimetype,
-            filetype: ext.replace(".", ""), // Corretto: rimuove solo il punto
+            filetype: ext.replace(".", ""), // rimuove solo il punto
             filepath: `/public/document/${safeFilename}`,
           },
         });

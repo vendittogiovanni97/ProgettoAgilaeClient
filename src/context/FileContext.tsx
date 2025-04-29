@@ -78,12 +78,16 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({
       );
 
       if (!fetchResult.ok) throw new Error("Failed to download file.");
-
+      //l'URL del file da saricare, viene creato qui
       const url = window.URL.createObjectURL(responseBody);
+
+      //Viene creato dinamicamente un elemento <a> (un link HTML). Questo elemento sarà usato per innescare il download.
       const link = document.createElement("a");
       link.href = url;
+      //Specifica il nome con cui il file verrà salvato sul computer dell’utente. Senza questa riga, il browser userebbe il nome originale del file dal server
       link.download = filename;
       link.click();
+      //Evita perdite di memoria
       window.URL.revokeObjectURL(url);
     } catch (err: any) {
       setError(err.message || "Unknown error");
