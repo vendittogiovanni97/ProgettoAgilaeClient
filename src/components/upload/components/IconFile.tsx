@@ -1,6 +1,6 @@
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-import DescriptionIcon from "@mui/icons-material/Description";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import { FaFileWord } from "react-icons/fa6";
+import { FaFilePdf } from "react-icons/fa6";
 
 export const getFileIcon = (filename: string, status: string) => {
   const extension = filename.split(".").pop()?.toLowerCase();
@@ -9,10 +9,10 @@ export const getFileIcon = (filename: string, status: string) => {
 
   switch (extension) {
     case "pdf":
-      return <PictureAsPdfIcon color={color} />;
+      return <FaFilePdf color={color} size={25} />;
     case "doc":
     case "docx":
-      return <DescriptionIcon color={color} />;
+      return <FaFileWord color={color} size={25} />;
     default:
       return <InsertDriveFileIcon color={color} />;
   }
