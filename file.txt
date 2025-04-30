@@ -25,3 +25,12 @@ puoi impostare reactStrictMode: false temporaneamente.
 
 
 dependencies sono i pacchetti necessari in produzione, mentre devDependencies servono solo durante lo sviluppo (es. testing).
+
+
+
+
+
+
+Qual è la struttura completa del componente AgilaeForm? Esiste una documentazione specifica?
+Quali sono tutti i possibili valori per ActionMode oltre a Edit, Read e Create?
+la funzione actionGet non è dentro una classe o un oggetto. Come dovrebbe essere strutturata correttamente?

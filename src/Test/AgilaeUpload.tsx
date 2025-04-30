@@ -1,8 +1,8 @@
 import { Button, SxProps, Theme } from "@mui/material";
 import React, { ChangeEvent, HTMLInputTypeAttribute, useRef } from "react";
 
-interface ButtonProps {
-  onUpload?: (value: any) => Promise<any> | void;
+interface AgilaeUploadProps {
+  onUpload?: (files: File[]) => Promise<any> | void;
   accept?: string;
   multiple?: boolean;
   maxFileSize?: number;
@@ -15,11 +15,11 @@ interface ButtonProps {
   sx?: SxProps<Theme>;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
   onChange?: (value: any) => Promise<any> | void;
-  buttonProps?: ButtonProps;
+  buttonProps?: AgilaeUploadProps;
   hidden?: boolean | undefined;
 }
 
-export const AgilaeUpload: React.FC<ButtonProps> = (params) => {
+export const AgilaeUpload: React.FC<AgilaeUploadProps> = (params) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const handleClick = () => {
     inputRef.current?.click();
@@ -32,6 +32,10 @@ export const AgilaeUpload: React.FC<ButtonProps> = (params) => {
       // Chiama onUpload se esiste
       if (params.onUpload) {
         await params.onUpload(selectedFiles);
+      }
+
+      if (params.onChange) {
+        await params.onChange(selectedFiles);
       }
     }
   };
