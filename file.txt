@@ -34,3 +34,5 @@ dependencies sono i pacchetti necessari in produzione, mentre devDependencies se
 Qual è la struttura completa del componente AgilaeForm? Esiste una documentazione specifica?
 Quali sono tutti i possibili valori per ActionMode oltre a Edit, Read e Create?
 la funzione actionGet non è dentro una classe o un oggetto. Come dovrebbe essere strutturata correttamente?
+Come si utilizza AgilaeForm per cercare di recuperare l'input dell'Upload
+Capire se ho inserito bene e correggere Upload nello switch case
