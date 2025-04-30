@@ -1,6 +1,8 @@
 // Esempio di configurazione di un form con campo upload
 import React from "react";
-import AgilaeForm from "../../../common/components/AgilaeForm";
+import AgilaeForm, {
+  AgilaeFormText,
+} from "../../../common/components/AgilaeForm";
 import { ActionMode } from "../../../common/interfaces/Common";
 
 const MyFormPage = () => {
@@ -66,10 +68,32 @@ const MyFormPage = () => {
   };
 
   return (
-    <div>
-      <h1>Demo Form con Upload</h1>
-      <AgilaeForm {...formConfig} />
-    </div>
+    <AgilaeForm
+      action={ActionMode.Edit}
+      actionGet={async (type, success, error) => {
+        try {
+          const response = await fetch("/api/get-form-data");
+          success(await response.json());
+        } catch (e) {
+          error({ message: "Errore nel caricamento" });
+        }
+      }}
+      actionSave={async (data) => {
+        const response = await fetch("/api/save", {
+          method: "POST",
+          body: JSON.stringify(data),
+        });
+        return await response.json();
+      }}
+      readPermission="can_edit_profile"
+      editPermission="can_edit_profile"
+      agilaeFormText={
+        new AgilaeFormText({
+          buttonSave: "Aggiorna profilo",
+          save: "Profilo aggiornato con successo!",
+        })
+      }
+    />
   );
 };
 

@@ -8,7 +8,7 @@ import { useFileContext } from "@/context/FileContext";
 import { CloudUpload } from "@mui/icons-material";
 
 export default function UploadComponents2() {
-  const { uploadFiles, files } = useFileContext();
+  const { uploadFiles } = useFileContext();
   return (
     <>
       <AgilaeUpload
