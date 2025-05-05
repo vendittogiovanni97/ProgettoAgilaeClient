@@ -4,27 +4,19 @@ import UploadComponents2 from "./upload2";
 export default function AgilaeUpload1() {
   return (
     <Box
+      component="form"
+      noValidate
+      autoComplete="off"
       sx={{
         display: "flex",
         justifyContent: "center", // centra orizzontalmente
         alignItems: "center", // centra verticalmente
         width: "100%",
-        minHeight: "400px",
+        minHeight: "100px",
         mt: 4, // margin-top
       }}
     >
-      <Paper
-        elevation={3}
-        sx={{
-          p: 4, // padding interno
-          width: "150%",
-          maxWidth: 800,
-          borderRadius: 3,
-          backgroundColor: "#d2d6d4",
-        }}
-      >
-        <UploadComponents2 />
-      </Paper>
+      <UploadComponents2 />
     </Box>
   );
 }

@@ -19,7 +19,7 @@ export const FileContext = createContext<FileContextType | undefined>(
 export const FileProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [files, setFiles] = useState<FileData[]>([]);
+  const [files, setFiles] = useState<FileData>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -49,13 +49,15 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const uploadFiles = async (selectedFiles: File[]) => {
+  const uploadFiles = async (selectedFile: File) => {
     try {
       setLoading(true);
 
+      setFiles({
+        name: selectedFile.name,
+      });
       const formData = new FormData();
-      selectedFiles.forEach((file) => formData.append("files", file));
-
+      formData.append("files", selectedFile);
       const res = await backendFetchFormData("/upload", formData);
 
       if (!res.ok) throw new Error("Failed to upload files.");
