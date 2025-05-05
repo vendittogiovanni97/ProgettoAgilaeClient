@@ -7,6 +7,12 @@ export interface FileData {
   filepath?: string;
   mimetype?: string;
   filetype?: string;
+  buttonInfo?: {
+    icon: string;
+    label: string;
+    color: string;
+    sortOrder: number;
+  };
 }
 
 // Tipo per il Context
@@ -18,4 +24,9 @@ export interface FileContextType {
   downloadFile: (id: number, filename: string) => Promise<void>;
   previewFile: (id: number, filename: string) => Promise<string>; // ritorna URL per preview
   fetchFiles: () => Promise<void>;
+  fetchFileInfo: (
+    tableName: string,
+    tableId: number,
+    fileLabel: string
+  ) => Promise<void>;
 }

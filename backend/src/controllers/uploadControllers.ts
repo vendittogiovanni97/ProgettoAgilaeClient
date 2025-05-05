@@ -82,7 +82,7 @@ export const previewFile = async (
 ///////////////////////////////////////////////////////////////////////////////
 
 /////////// Upload File ///////////
-
+/*
 export const uploadFiles = async (request: Request, response: Response) => {
   const documentsPath = "./public/document";
 
@@ -190,43 +190,46 @@ export const uploadFiles = async (request: Request, response: Response) => {
       error: "Internal server error while uploading files.",
     });
   }
-};
+}; */
 
-export const getUploadFileInfo = async (req: Request, res: Response) => {
-  const { tableName, tableId, fileLabel } = req.body;
+export const getFileInfo = async (req: Request, res: Response) => {
+  const { tableName, tableId, fileLabel } = req.query;
 
   if (!tableName || !tableId || !fileLabel) {
     res.status(400).json({ error: "Missing required fields" });
     return;
   }
   try {
-    const files = await dbClient.uploadFile.findMany({
+    const reference = await dbClient.fileReference.findFirst({
       where: {
-        fileReferences: {
-          some: {
-            tableName,
-            tableId,
-            fileLabel,
-          },
-        },
+        tableName: tableName as string,
+        tableId: parseInt(tableId as string),
+        fileLabel: fileLabel as string,
       },
       include: {
-        fileReferences: true,
+        file: true, // include UploadFile info
       },
     });
 
-    const result = files.map((file) => ({
-      nomefile: file.filename,
-      tipofile: file.filetype,
-      buttonInfo: new ButtonInfo({
-        icon: "download",
-        label: "Scarica",
-        color: "primary",
-        sortOrder: 1,
-      }),
-      dim: file.size ?? 0,
-    }));
-    res.json(result);
+    if (!reference || !reference.file) {
+      res.status(404).json({ message: "File not found" });
+      return;
+    }
+    const { filename, mimetype, size } = reference.file;
+
+    const button = new ButtonInfo({
+      icon: "📄",
+      label: `Apri ${filename}`,
+      color: "blue",
+      sortOrder: 1,
+    });
+
+    res.json({
+      nomefile: filename,
+      tipofile: mimetype,
+      dim: size,
+      button,
+    });
   } catch (error) {
     console.error("Errore nel recupero file:", error);
     res.status(500).json({ error: "Errore durante il recupero dei file" });
@@ -295,12 +298,12 @@ export const uploadFiles2 = async (request: Request, response: Response) => {
           id: createdFile.id,
           nomefile: createdFile.filename,
           tipofile: createdFile.filetype,
-          buttonInfo: {
+          buttonInfo: new ButtonInfo({
             icon: "download",
             label: "Scarica",
             color: "primary",
             sortOrder: 1,
-          },
+          }),
           dim: createdFile.size ?? 0,
           filepath: createdFile.filepath,
         };

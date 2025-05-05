@@ -1,14 +1,17 @@
 import { FileData } from "@/context/types/TypeFileContext";
 import {
+  Box,
   FormControl,
-  InputAdornment,
+  IconButton,
   InputLabel,
   OutlinedInput,
   SxProps,
   Theme,
+  Tooltip,
 } from "@mui/material";
 import React, { ChangeEvent, useEffect, useRef } from "react";
 import DownloadIcon from "@mui/icons-material/Download";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 interface ButtonInfo {
   icon: string;
@@ -34,7 +37,7 @@ interface AgilaeUploadProps {
   buttonProps?: AgilaeUploadProps;
   hidden?: boolean | undefined;
   value?: FileData;
-  downloadIcon?: React.ReactNode;
+  onPreview?: () => void;
   onDownload?: () => void;
   buttonInfo?: ButtonInfo;
 }
@@ -42,14 +45,19 @@ interface AgilaeUploadProps {
 export const AgilaeUpload: React.FC<AgilaeUploadProps> = (params) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [selectedFileName, setSelectedFileName] = React.useState<string>("");
+  const [showActions, setShowActions] = React.useState<boolean>(false);
 
   useEffect(() => {
     if (params.value) {
       if (typeof params.value === "string") {
         setSelectedFileName(params.value);
+        setShowActions(true);
       } else if (params.value.name) {
         setSelectedFileName(params.value.name);
+        setShowActions(true);
       }
+    } else {
+      setShowActions(false);
     }
   }, [params.value]);
 
@@ -63,6 +71,7 @@ export const AgilaeUpload: React.FC<AgilaeUploadProps> = (params) => {
       console.log("File selezionati:", selectedFile);
 
       setSelectedFileName(selectedFile.name);
+      setShowActions(true);
 
       // Chiama onUpload se esiste
       if (params.onUpload) {
@@ -79,6 +88,12 @@ export const AgilaeUpload: React.FC<AgilaeUploadProps> = (params) => {
     e.stopPropagation(); // Impedisce che il click attivi anche l'input file
     if (params.onDownload) {
       params.onDownload();
+    }
+  };
+  const handlePreviewClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Impedisce che il click attivi anche l'input file
+    if (params.onPreview) {
+      params.onPreview();
     }
   };
   return (
@@ -98,6 +113,30 @@ export const AgilaeUpload: React.FC<AgilaeUploadProps> = (params) => {
           inputProps={{ style: { cursor: "pointer" } }}
           sx={params.sx}
           label={params.label}
+          endAdornment={
+            showActions && (
+              <Box sx={{ display: "flex" }}>
+                <Tooltip title="Scarica file">
+                  <IconButton
+                    edge="end"
+                    onClick={handleDownloadClick}
+                    disabled={!params.onDownload}
+                  >
+                    <DownloadIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Anteprima file">
+                  <IconButton
+                    edge="end"
+                    onClick={handlePreviewClick}
+                    disabled={!params.onPreview}
+                  >
+                    <VisibilityIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            )
+          }
         />
         <input
           type="file"

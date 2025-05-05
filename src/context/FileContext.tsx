@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 import { FileContextType, FileData } from "./types/TypeFileContext";
 import backendFetch from "@/config/backendFetch";
 import { backendFetchFormData } from "@/config/backendFetchFormData";
@@ -22,11 +16,6 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({
   const [files, setFiles] = useState<FileData>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-
-  // Fetch iniziale
-  useEffect(() => {
-    fetchFiles();
-  }, []);
 
   const fetchFiles = async () => {
     try {
@@ -115,6 +104,37 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  // Funzione per ottenere le info del file
+  const fetchFileInfo = async (
+    tableName: string,
+    tableId: number,
+    fileLabel: string
+  ) => {
+    try {
+      const query = new URLSearchParams({
+        tableName,
+        tableId: tableId.toString(),
+        fileLabel,
+      });
+
+      const response = await fetch(`/api/files/info?${query.toString()}`, {
+        method: "GET",
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Errore nella fetch");
+      }
+
+      const data = await response.json();
+      console.log("File Info:", data);
+      return data;
+    } catch (error) {
+      console.error("Errore nel recupero info file:", error);
+      return null;
+    }
+  };
+
   return (
     <FileContext.Provider
       value={{
@@ -125,6 +145,7 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({
         downloadFile,
         previewFile,
         fetchFiles,
+        fetchFileInfo,
       }}
     >
       {children}

@@ -1,10 +1,9 @@
 import { Router } from "express";
 import {
   downloadFile,
-  getUploadFileInfo,
+  getFileInfo,
   listFiles,
   previewFile,
-  uploadFiles,
   uploadFiles2,
 } from "../controllers/uploadControllers";
 
@@ -24,7 +23,7 @@ export const UploadedFile = (app: Router) => {
   router.get("/:id/preview", previewFile);
 
   // Post // Lettura file
-  router.get("/getUploadFileInfo", getUploadFileInfo);
+  router.get("/files/info", getFileInfo);
 
   app.use("/", router);
 };

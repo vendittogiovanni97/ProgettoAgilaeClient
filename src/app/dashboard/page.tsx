@@ -3,7 +3,6 @@ import { Box } from "@mui/material";
 import AgilaeBar from "@/components/recharts/AgilaeBar";
 import AgilaePie from "@/components/recharts/AgilaePie";
 import AgilaeUpload1 from "@/components/upload/AgilaeUpload";
-import { FileUploadButton } from "@/components/upload/test";
 
 export default function DashboardPage() {
   return (
