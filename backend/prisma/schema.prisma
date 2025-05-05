@@ -19,6 +19,22 @@ model UploadFile {
   mimetype   String    // tipo MIME: application/pdf
   filetype   String   // estensione: pdf
   filepath String
+  size Int?
   createdAt DateTime @default(now())
+  fileReferences FileReference[]  // Relazione con la tabella di collegamento
 }
+model FileReference {
+  id Int @id @default(autoincrement())
+  tableName String    // nometabella
+  tableId Int      // idtabella
+  fileLabel String    // etichettafile
+  // Relazione con UploadFile
+  fileId Int
+  file UploadFile @relation(fields: [fileId], references: [id])
+  
+  createdAt DateTime @default(now())
+  
+  @@index([tableName, tableId])  // Indice per migliorare le performance delle query
+}
+
 

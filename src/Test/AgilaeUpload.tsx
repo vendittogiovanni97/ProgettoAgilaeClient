@@ -1,12 +1,21 @@
 import { FileData } from "@/context/types/TypeFileContext";
 import {
   FormControl,
+  InputAdornment,
   InputLabel,
   OutlinedInput,
   SxProps,
   Theme,
 } from "@mui/material";
 import React, { ChangeEvent, useEffect, useRef } from "react";
+import DownloadIcon from "@mui/icons-material/Download";
+
+interface ButtonInfo {
+  icon: string;
+  label: string;
+  color: string;
+  sortOrder: number;
+}
 
 interface AgilaeUploadProps {
   onUpload?: (files: File) => Promise<any> | void;
@@ -25,6 +34,9 @@ interface AgilaeUploadProps {
   buttonProps?: AgilaeUploadProps;
   hidden?: boolean | undefined;
   value?: FileData;
+  downloadIcon?: React.ReactNode;
+  onDownload?: () => void;
+  buttonInfo?: ButtonInfo;
 }
 
 export const AgilaeUpload: React.FC<AgilaeUploadProps> = (params) => {
@@ -62,6 +74,13 @@ export const AgilaeUpload: React.FC<AgilaeUploadProps> = (params) => {
       }
     }
   };
+
+  const handleDownloadClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Impedisce che il click attivi anche l'input file
+    if (params.onDownload) {
+      params.onDownload();
+    }
+  };
   return (
     <>
       <FormControl
@@ -79,7 +98,6 @@ export const AgilaeUpload: React.FC<AgilaeUploadProps> = (params) => {
           inputProps={{ style: { cursor: "pointer" } }}
           sx={params.sx}
           label={params.label}
-          {...params.buttonProps}
         />
         <input
           type="file"

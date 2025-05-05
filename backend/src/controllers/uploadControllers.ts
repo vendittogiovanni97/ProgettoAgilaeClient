@@ -1,3 +1,4 @@
+import { ButtonInfo } from "../../../src/lib/buttonInfo"; // dove hai la classe
 import { Request, Response } from "express";
 import dbClient from "../configuration/db.config";
 import path from "path";
@@ -86,7 +87,16 @@ export const uploadFiles = async (request: Request, response: Response) => {
   const documentsPath = "./public/document";
 
   try {
-    // Verifica che ci siano file nella richiesta
+    const { tableName, tableId, fileLabel } = request.body;
+
+    // Verifica parametri base
+    if (!tableName || !tableId || !fileLabel) {
+      response
+        .status(400)
+        .json({ error: "Missing tableName, tableId or fileLabel." });
+      return;
+    }
+
     if (!request.files || !request.files.files) {
       response
         .status(400)
@@ -94,78 +104,230 @@ export const uploadFiles = async (request: Request, response: Response) => {
       return;
     }
 
-    // Normalizza i file in un array
     const files = request.files.files;
-    const uploadedFiles = Array.isArray(files) ? files : [files]; //gestiamo sia upload multipli che singoli
+    const uploadedFiles = Array.isArray(files) ? files : [files];
 
-    // Tipi MIME accettati
     const acceptedMimeTypes = [
       "application/pdf",
       "application/msword",
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    ]; //Controllo tipo file
+    ];
 
     const savedFiles = [];
+    const formattedFiles = [];
 
-    // Processa ogni file
     for (const file of uploadedFiles as UploadedFile[]) {
       try {
-        // Verifica il tipo di file
         if (!acceptedMimeTypes.includes(file.mimetype)) {
           throw new Error(`Invalid file type for file: ${file.name}`);
         }
 
-        // Genera un nome file sicuro
         const ext = path.extname(file.name);
         const safeFilename = `${
           path.parse(file.name).name
         }-${Date.now()}${ext}`;
         const savePath = path.join(documentsPath, safeFilename);
 
-        // Sposta il file
         await file.mv(savePath);
 
-        // Salva nel database
-        /*La struttura è coerente e facile da capire. filetype ricavato togliendo il punto: funziona,
-         ma se mai lavorerai con estensioni multiple potrebbe essere più robusto usare ext.substring(1) o una libreria.*/
         const createdFile = await dbClient.uploadFile.create({
           data: {
             filename: safeFilename,
             mimetype: file.mimetype,
-            filetype: ext.replace(".", ""), // rimuove solo il punto
+            filetype: ext.replace(".", ""),
             filepath: `/public/document/${safeFilename}`,
+            size: file.size,
           },
         });
 
+        // Collegamento con FileReference
+        await dbClient.fileReference.create({
+          data: {
+            fileId: createdFile.id,
+            tableName: tableName,
+            tableId: Number(tableId),
+            fileLabel: fileLabel,
+          },
+        });
+
+        // Crea l'oggetto formattato con ButtonInfo
+        const formattedFile = {
+          nomefile: createdFile.filename,
+          tipofile: createdFile.filetype,
+          buttonInfo: new ButtonInfo({
+            icon: "download",
+            label: "Scarica",
+            color: "primary",
+            sortOrder: 1,
+          }),
+          dim: createdFile.size ?? 0,
+          id: createdFile.id,
+          filepath: createdFile.filepath,
+        };
+
         savedFiles.push(createdFile);
+        formattedFiles.push(formattedFile);
       } catch (fileError) {
         console.error(`Error processing file ${file.name}:`, fileError);
-        // Continua con i file successivi anche se uno fallisce
       }
     }
 
-    // Verifica se almeno un file è stato processato con successo
     if (savedFiles.length === 0) {
       response.status(400).json({
         error: "No files were successfully processed.",
-        details: uploadedFiles.map((f) => ({
-          name: f.name,
-          type: f.mimetype,
-          size: f.size,
-        })),
       });
+      return;
     }
 
     response.status(200).json({
-      message: "Files uploaded successfully.",
-      files: savedFiles,
+      message: "Files uploaded and linked successfully.",
+      files: formattedFiles,
       count: savedFiles.length,
     });
   } catch (error) {
     console.error("Server error during file upload:", error);
     response.status(500).json({
       error: "Internal server error while uploading files.",
-      details: "",
+    });
+  }
+};
+
+export const getUploadFileInfo = async (req: Request, res: Response) => {
+  const { tableName, tableId, fileLabel } = req.body;
+
+  if (!tableName || !tableId || !fileLabel) {
+    res.status(400).json({ error: "Missing required fields" });
+    return;
+  }
+  try {
+    const files = await dbClient.uploadFile.findMany({
+      where: {
+        fileReferences: {
+          some: {
+            tableName,
+            tableId,
+            fileLabel,
+          },
+        },
+      },
+      include: {
+        fileReferences: true,
+      },
+    });
+
+    const result = files.map((file) => ({
+      nomefile: file.filename,
+      tipofile: file.filetype,
+      buttonInfo: new ButtonInfo({
+        icon: "download",
+        label: "Scarica",
+        color: "primary",
+        sortOrder: 1,
+      }),
+      dim: file.size ?? 0,
+    }));
+    res.json(result);
+  } catch (error) {
+    console.error("Errore nel recupero file:", error);
+    res.status(500).json({ error: "Errore durante il recupero dei file" });
+  }
+};
+
+export const uploadFiles2 = async (request: Request, response: Response) => {
+  const documentsPath = "./public/document";
+
+  try {
+    if (!request.files || !request.files.files) {
+      response
+        .status(400)
+        .json({ error: "Please upload at least one file to proceed." });
+      return;
+    }
+
+    const files = request.files.files;
+    const uploadedFiles = Array.isArray(files) ? files : [files];
+
+    const acceptedMimeTypes = [
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ];
+
+    const savedFiles = [];
+    const formattedFiles = [];
+
+    for (const file of uploadedFiles as UploadedFile[]) {
+      try {
+        if (!acceptedMimeTypes.includes(file.mimetype)) {
+          throw new Error(`Invalid file type for file: ${file.name}`);
+        }
+
+        const ext = path.extname(file.name);
+        const safeFilename = `${
+          path.parse(file.name).name
+        }-${Date.now()}${ext}`;
+        const savePath = path.join(documentsPath, safeFilename);
+
+        await file.mv(savePath);
+
+        const createdFile = await dbClient.uploadFile.create({
+          data: {
+            filename: safeFilename,
+            mimetype: file.mimetype,
+            filetype: ext.replace(".", ""),
+            filepath: `/public/document/${safeFilename}`,
+            size: file.size,
+          },
+        });
+
+        /* // Collegamento con FileReference - COMMENTATO PER TEST
+        await dbClient.fileReference.create({
+          data: {
+            fileId: createdFile.id,
+            tableName: tableName,
+            tableId: Number(tableId),
+            fileLabel: fileLabel,
+          },
+        }); */
+
+        // Crea l'oggetto formattato con ButtonInfo
+        const formattedFile = {
+          id: createdFile.id,
+          nomefile: createdFile.filename,
+          tipofile: createdFile.filetype,
+          buttonInfo: {
+            icon: "download",
+            label: "Scarica",
+            color: "primary",
+            sortOrder: 1,
+          },
+          dim: createdFile.size ?? 0,
+          filepath: createdFile.filepath,
+        };
+
+        savedFiles.push(createdFile);
+        formattedFiles.push(formattedFile);
+      } catch (fileError) {
+        console.error(`Error processing file ${file.name}:`, fileError);
+      }
+    }
+
+    if (savedFiles.length === 0) {
+      response.status(400).json({
+        error: "No files were successfully processed.",
+      });
+      return;
+    }
+
+    response.status(200).json({
+      message: "Files uploaded successfully.",
+      files: formattedFiles, // Restituisci i file formattati con ButtonInfo
+      count: formattedFiles.length,
+    });
+  } catch (error) {
+    console.error("Server error during file upload:", error);
+    response.status(500).json({
+      error: "Internal server error while uploading files.",
     });
   }
 };
