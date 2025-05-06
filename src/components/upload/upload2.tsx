@@ -2,7 +2,6 @@
 
 import { AgilaeUpload } from "@/Test/AgilaeUpload";
 import { useFileContext } from "@/context/FileContext";
-import { useState } from "react";
 
 export default function UploadComponents2() {
   const { files, uploadFiles } = useFileContext();

@@ -117,18 +117,19 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({
         fileLabel,
       });
 
-      const response = await fetch(`/api/files/info?${query.toString()}`, {
-        method: "GET",
-      });
+      const { fetchResult, responseBody } = await backendFetch(
+        `files/info?${query.toString()}`,
+        "get",
+        undefined,
+        "json"
+      );
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Errore nella fetch");
+      if (!fetchResult.ok) {
+        throw new Error(responseBody.error || "Errore nella fetch");
       }
 
-      const data = await response.json();
-      console.log("File Info:", data);
-      return data;
+      console.log("File Info:", responseBody);
+      return responseBody;
     } catch (error) {
       console.error("Errore nel recupero info file:", error);
       return null;

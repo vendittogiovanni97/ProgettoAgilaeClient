@@ -2,7 +2,7 @@
 export interface FileData {
   id?: number;
   name: string;
-  size?: string;
+  size?: number;
   progress?: number;
   filepath?: string;
   mimetype?: string;
