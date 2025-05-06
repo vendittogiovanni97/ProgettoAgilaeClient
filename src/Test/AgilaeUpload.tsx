@@ -39,6 +39,7 @@ interface AgilaeUploadProps {
   value?: FileData;
   onPreview?: () => void;
   onDownload?: () => void;
+  onRead?: () => void;
   buttonInfo?: ButtonInfo;
 }
 

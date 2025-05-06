@@ -5,11 +5,13 @@ import { useFileContext } from "@/context/FileContext";
 import { useState } from "react";
 
 export default function UploadComponents2() {
-  const { files } = useFileContext();
+  const { files, uploadFiles } = useFileContext();
   return (
     <>
       <AgilaeUpload
         value={files}
+        onUpload={uploadFiles}
+        onRead={() => files}
         accept=".pdf, .doc, .docx"
         buttonProps={{ color: "primary" }}
         hidden
