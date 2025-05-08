@@ -1,18 +1,12 @@
 import { FileData } from "@/context/types/TypeFileContext";
 import {
-  Box,
   FormControl,
-  IconButton,
   InputLabel,
   OutlinedInput,
   SxProps,
   Theme,
-  Tooltip,
 } from "@mui/material";
 import React, { ChangeEvent, useEffect, useRef } from "react";
-import DownloadIcon from "@mui/icons-material/Download";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import { useFileContext } from "@/context/FileContext";
 
 interface ButtonInfo {
   icon: string;
@@ -42,66 +36,12 @@ interface AgilaeUploadProps {
   onDownload?: () => void;
   onRead?: () => void;
   buttonInfo?: ButtonInfo;
-  // Props per identificare il file nel context
-  tableName?: string;
-  tableId?: number;
-  fileLabel?: string;
-  autoFetchFileInfo?: boolean;
 }
 
 export const AgilaeUpload: React.FC<AgilaeUploadProps> = (params) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [selectedFileName, setSelectedFileName] = React.useState<string>( // Inizializziamo con il nome del file dai parametri, se disponibile
-    params.value && typeof params.value === "string"
-      ? params.value
-      : params.value?.name
-      ? params.value.name
-      : "Modulo di contatto _ Assistenza LinkedIn-174644931435.pdf" // Valore predefinito per i test
-  );
+  const [selectedFileName, setSelectedFileName] = React.useState<string>();
   const [showActions, setShowActions] = React.useState<boolean>(false);
-  const { fetchFileInfo, downloadFile, previewFile } = useFileContext();
-
-  // Effetto per caricare automaticamente le informazioni del file se i parametri sono forniti
-  useEffect(() => {
-    const loadFileInfo = async () => {
-      if (
-        params.autoFetchFileInfo &&
-        params.tableName &&
-        params.tableId !== undefined &&
-        params.fileLabel
-      ) {
-        try {
-          // Utilizzo diretto dei dati del file specifico senza chiamare fetchFileInfo
-          const fileInfo: FileData = {
-            name: "Modulo di contatto _ Assistenza LinkedIn-174644931435.pdf",
-            size: 174644,
-            filetype: "application/pdf",
-            // Aggiungi altre proprietà necessarie per il tuo tipo FileData
-          };
-
-          // Aggiorna l'interfaccia con i dati del file
-          if (
-            fileInfo &&
-            typeof fileInfo === "object" &&
-            "name" in fileInfo &&
-            fileInfo.name
-          ) {
-            setSelectedFileName(fileInfo.name);
-            setShowActions(true);
-          }
-        } catch (error) {
-          console.error(
-            "Errore nel recupero delle informazioni del file:",
-            error
-          );
-          setSelectedFileName("");
-          setShowActions(false);
-        }
-      }
-    };
-
-    loadFileInfo();
-  }, [fetchFileInfo]);
 
   useEffect(() => {
     if (params.value) {
@@ -144,30 +84,15 @@ export const AgilaeUpload: React.FC<AgilaeUploadProps> = (params) => {
     e.stopPropagation(); // Impedisce che il click attivi anche l'input file
     if (params.onDownload) {
       params.onDownload();
-    } else if (
-      params.tableName &&
-      params.tableId !== undefined &&
-      params.fileLabel
-    ) {
-      // Se non è definito un handler personalizzato ma abbiamo le info necessarie,
-      // usiamo la funzione di contesto
-      downloadFile(params.tableId, params.fileLabel);
     }
   };
   const handlePreviewClick = (e: React.MouseEvent) => {
     e.stopPropagation(); // Impedisce che il click attivi anche l'input file
     if (params.onPreview) {
       params.onPreview();
-    } else if (
-      params.tableName &&
-      params.tableId !== undefined &&
-      params.fileLabel
-    ) {
-      // Se non è definito un handler personalizzato ma abbiamo le info necessarie,
-      // usiamo la funzione di contesto
-      previewFile(params.tableId, params.fileLabel);
     }
   };
+
   return (
     <>
       <FormControl
@@ -185,30 +110,6 @@ export const AgilaeUpload: React.FC<AgilaeUploadProps> = (params) => {
           inputProps={{ style: { cursor: "pointer" } }}
           sx={params.sx}
           label={params.label}
-          endAdornment={
-            showActions && (
-              <Box sx={{ display: "flex" }}>
-                <Tooltip title="Scarica file">
-                  <IconButton
-                    edge="end"
-                    onClick={handleDownloadClick}
-                    disabled={!params.onDownload}
-                  >
-                    <DownloadIcon />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Anteprima file">
-                  <IconButton
-                    edge="end"
-                    onClick={handlePreviewClick}
-                    disabled={!params.onPreview}
-                  >
-                    <VisibilityIcon />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-            )
-          }
         />
         <input
           type="file"
