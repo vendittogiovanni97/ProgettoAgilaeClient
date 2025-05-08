@@ -39,31 +39,13 @@ const OrgChartComponent: React.FC<OrgChartProps> = ({ data }) => {
 
     const chart = new OrgChart()
       .container("#chart-container")
-      .data(
-        data
-      ) /* Assegna i dati dell'organigramma. 'data' è l'array che contiene le informazioni sui nodi (persone e relazioni gerarchiche).
-       Ogni oggetto all'interno di 'data' rappresenta una persona, con informazioni come id, nome, titolo e parentId. */
-      .nodeHeight(
-        () => 120
-      ) /* Imposta l'altezza di ciascun nodo (persona) dell'organigramma a 120px.
-       Puoi personalizzare questa altezza in base alle tue esigenze. In questo caso, il nodo avrà un'altezza fissa di 120px. */
-
-      .nodeWidth(() => 220) /* imposta la larghezza fissa a 220 */
-
+      .data(data)
+      .nodeHeight(() => 120)
+      .nodeWidth(() => 220)
       .childrenMargin(() => 40)
-      // Definisce la distanza tra un nodo e i suoi figli (in questo caso, 40px).
-      // Questo parametro controlla quanto sono separati i nodi gerarchici a livello di bambini (nodi figli)
-
-      .compactMarginBetween(() => 15) // Imposta la distanza tra i nodi all'interno di una coppia di nodi (in questo caso, 15px).
-      // Questo valore definisce lo spazio tra i nodi che sono sullo stesso livello gerarchico.
-
+      .compactMarginBetween(() => 15)
       .compactMarginPair(() => 80)
-      // Definisce la distanza verticale tra coppie di nodi (ad esempio, nodi che hanno una relazione diretta tra di loro, come supervisore e dipendente).
-      // In questo caso, c'è uno spazio di 80px tra coppie di nodi.
-
       .nodeContent((d: any) => {
-        // Personalizza il contenuto che appare all'interno di ogni nodo dell'organigramma.
-        // 'd' rappresenta il dato associato al nodo corrente. 'd.data' contiene le informazioni dell'individuo, come nome, titolo, ecc.
         const bgColor = getColorByTitle(d.data.title);
         return `
           <div style="padding: 15px; background: ${bgColor}; color: white; border-radius: 10px; box-shadow: 2px 2px 5px #ccc;">
