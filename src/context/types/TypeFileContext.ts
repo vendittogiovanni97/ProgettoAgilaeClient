@@ -24,7 +24,7 @@ export interface FileContextType {
   downloadFile: (id: number, filename: string) => Promise<void>;
   previewFile: (id: number, filename: string) => Promise<string>; // ritorna URL per preview
   fetchFiles: () => Promise<void>;
-  fetchFileInfo: (
+  getFile: (
     tableName: string,
     tableId: number,
     fileLabel: string

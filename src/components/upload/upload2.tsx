@@ -1,22 +1,32 @@
 "use client";
 
-import { AgilaeUpload } from "@/Test/AgilaeUpload";
 import { useFileContext } from "@/context/FileContext";
+import AgilaeFile, { FileDataInterface } from "@/Test/AgilaeFile";
 
 export default function UploadComponents2() {
-  const { files, uploadFiles, fetchFileInfo } = useFileContext();
+  const { uploadFiles } = useFileContext();
   return (
     <>
-      <AgilaeUpload
-        value={files}
-        onUpload={uploadFiles}
-        onRead={() => fetchFileInfo}
-        accept=".pdf, .doc, .docx"
-        buttonProps={{ color: "primary" }}
-        hidden
-        label="Carica Allegato"
-        maxFileSize={5 * 1024 * 1024} // 5MB
-      ></AgilaeUpload>
+      <AgilaeFile
+        onUpload={(file) =>
+          uploadFiles(file) as Promise<FileDataInterface | undefined>
+        }
+        /*onDownload={(filename) =>
+          downloadFile("FormData", 1, "cantero", filename)
+        } */
+        /*onPreview={(successCallback, errorCallback) =>
+          downloadPreview(
+            "FormData",
+            1,
+            "cantero",
+            successCallback,
+            errorCallback
+          )
+        }
+        onRead={(successCallback, errorCallback) =>
+          getFile("FormData", 1, "cantero", successCallback, errorCallback)
+        }*/
+      />
     </>
   );
 }

@@ -26,6 +26,7 @@ app.use(
     credentials: true,
   })
 );
+console.log("CORS origin:", process.env.ORIGIN);
 
 addRouter(app);
 

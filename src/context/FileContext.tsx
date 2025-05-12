@@ -38,15 +38,22 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const uploadFiles = async (selectedFile: File) => {
+  const uploadFiles = async (
+    file: File,
+    formType?: string,
+    userId?: number,
+    section?: string,
+    subSection?: number,
+    category?: string
+  ) => {
     try {
       setLoading(true);
 
       setFiles({
-        name: selectedFile.name,
+        name: file.name,
       });
       const formData = new FormData();
-      formData.append("files", selectedFile);
+      formData.append("files", file);
       const res = await backendFetchFormData("/upload", formData);
 
       if (!res.ok) throw new Error("Failed to upload files.");
@@ -105,7 +112,7 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   // Funzione per ottenere le info del file
-  const fetchFileInfo = async (
+  const getFile = async (
     tableName: string,
     tableId: number,
     fileLabel: string
@@ -146,7 +153,7 @@ export const FileProvider: React.FC<{ children: ReactNode }> = ({
         downloadFile,
         previewFile,
         fetchFiles,
-        fetchFileInfo,
+        getFile,
       }}
     >
       {children}
