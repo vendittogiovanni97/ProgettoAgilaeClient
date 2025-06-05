@@ -98,9 +98,12 @@ interface AgilaeFileProps {
 }
 
 const getFileSignature = async (file: File): Promise<string> => {
+  // Si estrae un buffer dai primi 4 byte del file
   const buffer = await file.slice(0, 4).arrayBuffer();
+  // Creiamo un array di bytes a partire dal buffer
   const bytes = new Uint8Array(buffer);
-  return [...bytes].map((b) => b.toString(16).padStart(2, "0")).join(" ");
+  // Convertiamo i bytes in esadecimale e li uniamo in una stringa
+  return [...bytes].map((b) => b.toString(16).padStart(2, "0")).join(" "); // Creiamo un array di byte
 };
 
 const magicNumbers: Record<string, string[]> = {
@@ -112,6 +115,7 @@ const magicNumbers: Record<string, string[]> = {
 const isPdf = async (file: File): Promise<boolean> => {
   const buffer = await file.slice(0, 4).arrayBuffer();
   const bytes = new Uint8Array(buffer);
+
   return (
     bytes[0] === 0x25 &&
     bytes[1] === 0x50 &&

@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import AgilaeBar from "@/components/recharts/AgilaeBar";
 import AgilaePie from "@/components/recharts/AgilaePie";
 import AgilaeUpload1 from "@/components/upload/AgilaeUpload";
+import Footer from "@/components/Footer";
 
 export default function DashboardPage() {
   return (
@@ -11,10 +12,8 @@ export default function DashboardPage() {
     >
       <Grid container direction="column" sx={{ height: "100vh" }}>
         {/* provare grid 3x */}
-        <AgilaeBar />
-        <AgilaePie />
+        <Footer />
       </Grid>
-      <AgilaeUpload1 />
     </Box>
   );
 }
