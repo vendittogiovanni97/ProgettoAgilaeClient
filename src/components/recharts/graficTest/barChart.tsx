@@ -3,7 +3,7 @@ import { tooltipBar } from "@/lib/formatterTooltipChart";
 import { datiAutonoleggio } from "@/types/valoriGraficiEcharts";
 import ReactECharts from "echarts-for-react";
 
-//Grafico a barre con etichette di percentuale accanto
+
 export const options = {
   tooltip: {
     trigger: "axis",
@@ -35,8 +35,7 @@ export const options = {
       margin: 80,
       fontSize: 16,
       fontFamily: "monospace",
-      color: "#555",
-      fontWeight: "bold",
+      color: "#1e1d4f",
     },
   },
   series: [
